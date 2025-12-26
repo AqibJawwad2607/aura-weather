@@ -16,3 +16,4 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
+// restart server
