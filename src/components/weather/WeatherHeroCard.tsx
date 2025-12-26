@@ -1,27 +1,13 @@
 import React from 'react';
-import { Cloud, Droplets, Wind } from 'lucide-react';
+import WeatherIcon from './WeatherIcon';
+import { Droplets, Wind } from 'lucide-react';
+import { CurrentWeather, formatDate } from '@/services/weatherService';
 
 interface WeatherHeroCardProps {
-  city: string;
-  country: string;
-  temperature: number;
-  condition: string;
-  feelsLike: number;
-  humidity: number;
-  windSpeed: number;
-  date: string;
+  data: CurrentWeather;
 }
 
-const WeatherHeroCard: React.FC<WeatherHeroCardProps> = ({
-  city,
-  country,
-  temperature,
-  condition,
-  feelsLike,
-  humidity,
-  windSpeed,
-  date,
-}) => {
+const WeatherHeroCard: React.FC<WeatherHeroCardProps> = ({ data }) => {
   return (
     <div className="glass-card p-6 md:p-8 relative overflow-hidden animate-fade-up">
       {/* Background gradient orb */}
@@ -33,31 +19,34 @@ const WeatherHeroCard: React.FC<WeatherHeroCardProps> = ({
           {/* Left side - Location & Temp */}
           <div className="space-y-4">
             <div>
-              <p className="text-muted-foreground text-sm">{date}</p>
+              <p className="text-muted-foreground text-sm">{formatDate()}</p>
               <h2 className="text-2xl md:text-3xl font-semibold mt-1">
-                {city}, <span className="text-muted-foreground font-normal">{country}</span>
+                {data.city}, <span className="text-muted-foreground font-normal">{data.country}</span>
               </h2>
             </div>
             
             <div className="flex items-baseline gap-2">
               <span className="text-7xl md:text-8xl font-light tracking-tighter gradient-text">
-                {temperature}
+                {data.temperature}
               </span>
               <span className="text-3xl text-muted-foreground">°C</span>
             </div>
             
             <p className="text-lg text-muted-foreground">
-              Feels like <span className="text-foreground font-medium">{feelsLike}°C</span>
+              Feels like <span className="text-foreground font-medium">{data.feelsLike}°C</span>
             </p>
           </div>
           
           {/* Right side - Condition & Stats */}
           <div className="flex flex-col items-start md:items-end gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center animate-pulse-glow">
-                <Cloud className="w-10 h-10 text-primary" />
+              <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <WeatherIcon icon={data.icon} size="lg" />
               </div>
-              <span className="text-xl font-medium">{condition}</span>
+              <div>
+                <span className="text-xl font-medium block">{data.condition}</span>
+                <span className="text-sm text-muted-foreground capitalize">{data.description}</span>
+              </div>
             </div>
             
             <div className="flex gap-6 mt-4">
@@ -67,7 +56,7 @@ const WeatherHeroCard: React.FC<WeatherHeroCardProps> = ({
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Humidity</p>
-                  <p className="font-semibold">{humidity}%</p>
+                  <p className="font-semibold">{data.humidity}%</p>
                 </div>
               </div>
               
@@ -77,7 +66,7 @@ const WeatherHeroCard: React.FC<WeatherHeroCardProps> = ({
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Wind</p>
-                  <p className="font-semibold">{windSpeed} km/h</p>
+                  <p className="font-semibold">{data.windSpeed} km/h</p>
                 </div>
               </div>
             </div>

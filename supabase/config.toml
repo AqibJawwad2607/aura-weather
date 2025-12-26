@@ -1,1 +1,7 @@
 project_id = "cxcejmqibushrnkczzul"
+
+[functions.get-weather]
+verify_jwt = false
+
+[functions.get-earthquakes]
+verify_jwt = false
